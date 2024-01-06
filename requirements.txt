@@ -1,4 +1,4 @@
-asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1694046349000/work
+asttokens==2.4.1
 backcall @ file:///home/conda/feedstock_root/build_artifacts/backcall_1592338393461/work
 backports.functools-lru-cache @ file:///home/conda/feedstock_root/build_artifacts/backports.functools_lru_cache_1687772187254/work
 blinker==1.6.2
