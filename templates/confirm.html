@@ -1,0 +1,28 @@
+<!-- templates/confirm.html -->
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>データ送信の確認</title>
+</head>
+<body>
+    <h1>以下の情報をNotionに送信します</h1>
+    <p>アーティスト名: {{ data.artist_name }}</p>
+    <p>説明: {{ data.description }}</p>
+    <form action="/confirm" method="post">
+        <input type="hidden" name="confirmed_data" value='{{ data | tojson | safe }}'>
+        <button type="submit">送信する</button>
+    </form>    <a href="/">キャンセル</a>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.querySelector("form");
+            form.onsubmit = function() {
+                // フォーム送信前にデータをコンソールに出力
+                console.log("Sending this data:", document.querySelector("input[name='confirmed_data']").value);
+            };
+        });
+        </script>
+        
+</body>
+</html>
