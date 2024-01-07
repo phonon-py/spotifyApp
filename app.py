@@ -5,17 +5,14 @@ from flask_bootstrap import Bootstrap
 import requests
 import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 NOTION_TOKEN = os.environ.get('NOTION_TOKEN')
 NOTION_PAGE_ID = os.environ.get('NOTION_PAGE_ID')
-
-# エラーハンドリング：環境変数が設定されていない場合
-if CLIENT_ID == 'YourDefaultClientId' or CLIENT_SECRET == 'YourDefaultClientSecret':
-    print("環境変数 CLIENT_ID または CLIENT_SECRET が設定されていません。")
-if NOTION_TOKEN == 'YourDefaultNotionToken' or NOTION_PAGE_ID == 'YourDefaultNotionPageId':
-    print("環境変数 NOTION_TOKEN または NOTION_PAGE_ID が設定されていません。")
 
 # Notionへデータ送信
 def send_to_notion(data):
@@ -126,6 +123,16 @@ def confirm():
 def home():
     if request.method == 'POST':
         track_url = request.form['track_url']
+        
+        # 'intl-ja' を削除する処理
+        track_url = track_url.replace('intl-ja', '')
+
+        # URL内の '//' を '/' に置き換える
+        track_url = track_url.replace('//', '/')
+
+        # 'https:/' を 'https://' に戻す
+        track_url = track_url.replace('https:/', 'https://')
+
         data = get_track_info(track_url)
         return redirect(url_for('confirm', data=json.dumps(data)))
     else:
