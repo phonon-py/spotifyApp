@@ -4,8 +4,12 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 import requests
 import json
+from config import CLIENT_ID, CLIENT_SECRET, NOTION_TOKEN, NOTION_PAGE_ID
 import os
 from dotenv import load_dotenv
+
+'''
+デプロイ前はローカルの環境変数ではなく、config.pyを使用する
 
 load_dotenv()
 
@@ -13,6 +17,7 @@ CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 NOTION_TOKEN = os.environ.get('NOTION_TOKEN')
 NOTION_PAGE_ID = os.environ.get('NOTION_PAGE_ID')
+'''
 
 # Notionへデータ送信
 def send_to_notion(data):

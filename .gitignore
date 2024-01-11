@@ -1,1 +1,10 @@
+# dirs
+venv
+__pycache__
+
+# files
 config.py
+.env
+.cache
+runtime.txt
+Procfile
