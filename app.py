@@ -6,18 +6,11 @@ import requests
 import json
 from config import CLIENT_ID, CLIENT_SECRET, NOTION_TOKEN, NOTION_PAGE_ID
 import os
-from dotenv import load_dotenv
+import logging
 
-'''
-デプロイ前はローカルの環境変数ではなく、config.pyを使用する
-
-load_dotenv()
-
-CLIENT_ID = os.environ.get('CLIENT_ID')
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-NOTION_TOKEN = os.environ.get('NOTION_TOKEN')
-NOTION_PAGE_ID = os.environ.get('NOTION_PAGE_ID')
-'''
+# loggingの設定
+logging.basicConfig(filename='app.log', level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Notionへデータ送信
 def send_to_notion(data):
@@ -75,6 +68,7 @@ def get_related_artists(artist_id):
     return related_artists
 
 def get_track_info(track_url):
+    logging.info(f"get_track_info 関数開始: {track_url}")
     try:
         track_result = sp.track(track_url)
         artist_name = track_result['album']['artists'][0]['name']
@@ -96,10 +90,12 @@ def get_track_info(track_url):
         "artist_name": artist_name,
         "track_name": track_name, 
         "description": f"関連アーティスト: {', '.join(related_artists_names)}\nGenres: {', '.join(genres)}\nBPM: {bpm}\nKey: {key}, Mode: {mode}"
-    }
+        }
+        logging.info("get_track_info 関数終了")
         return data
 
     except Exception as e:
+        logging.error(f"get_track_info 関数でエラー: {e}", exc_info=True)
         return f"エラーが発生しました: {e}"
 
 app = Flask(__name__)
@@ -128,7 +124,7 @@ def confirm():
 def home():
     if request.method == 'POST':
         track_url = request.form['track_url']
-        
+        logging.info(f"トラックURL受信: {track_url}")
         # 'intl-ja' を削除する処理
         track_url = track_url.replace('intl-ja', '')
 
