@@ -7,13 +7,23 @@
 <body>
     <div class="container">
         <h1>Spotify Track Info</h1>
+
+        <!-- トラック情報取得フォーム -->
         <form method="POST">
             <div class="form-group">
                 <input type="text" class="form-control" name="track_url" placeholder="Track URL">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
+
+        <!-- ログイン状態に応じた表示 -->
+        {% if current_user.is_authenticated %}
+            <p>こんにちは, {{ current_user.username }}!</p>
+            <a href="{{ url_for('logout') }}">ログアウト</a>
+        {% else %}
+            <a href="{{ url_for('signup') }}">サインイン</a> | 
+            <a href="{{ url_for('login') }}">ログイン</a>
+        {% endif %}    </div>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
 </html>
